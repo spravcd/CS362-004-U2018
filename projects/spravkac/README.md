@@ -1,1 +1,1 @@
-Chris Spravka spravkac
+This is my assignment-1 submission!
