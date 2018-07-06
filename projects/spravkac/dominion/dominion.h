@@ -127,5 +127,8 @@ int scoreFor(int player, struct gameState *state);
 int getWinners(int players[MAX_PLAYERS], struct gameState *state);
 /* Set array position of each player who won (remember ties!) to
    1, others to 0 */
+   
+int smithyEffect(int currentPlayer, struct gameState *state, int handPos);
+/* replaces smithy effects in cardEffect function with a separate smithy function */
 
 #endif

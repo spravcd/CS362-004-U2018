@@ -643,6 +643,19 @@ int getCost(int cardNumber)
   return -1;
 }
 
+int smithyEffect(int currentPlayer, struct gameState *state, int handPos) {
+      //+3 Cards
+	  int i=0;
+      for (i = 0; i < 3; i++)
+	{
+	  drawCard(currentPlayer, state);
+	}
+			
+      //discard card from hand
+      discardCard(handPos, currentPlayer, state, 0);
+      return 0;
+}
+
 int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int *bonus)
 {
   int i;
@@ -830,6 +843,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 		
     case smithy:
       //+3 Cards
+	/*
       for (i = 0; i < 3; i++)
 	{
 	  drawCard(currentPlayer, state);
@@ -838,6 +852,9 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
       //discard card from hand
       discardCard(handPos, currentPlayer, state, 0);
       return 0;
+	*/
+	// do you want to have smithEffect return void instead and let the switch return 0?
+	return smithyEffect(currentPlayer, state, handPos);
 		
     case village:
       //+1 Card
