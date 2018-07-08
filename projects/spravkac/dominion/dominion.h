@@ -131,4 +131,7 @@ int getWinners(int players[MAX_PLAYERS], struct gameState *state);
 int smithyEffect(int currentPlayer, struct gameState *state, int handPos);
 /* replaces smithy effects in cardEffect function with a separate smithy function */
 
+int adventurerEffect(int currentPlayer, struct gameState *state, int drawntreasure, int cardDrawn, int *temphand, int *z);
+/* replaces adventurer effects in cardEffect with a separate adventurer function*/
+
 #endif
