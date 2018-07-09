@@ -134,4 +134,13 @@ int smithyEffect(int currentPlayer, struct gameState *state, int handPos);
 int adventurerEffect(int currentPlayer, struct gameState *state, int drawntreasure, int cardDrawn, int *temphand, int *z);
 /* replaces adventurer effects in cardEffect with a separate adventurer function*/
 
+int villageEffect(int currentPlayer, struct gameState *state, int handPos);
+/* replaces village effects in cardEffect with a separate village function*/
+
+int seaHagEffect(int currentPlayer, struct gameState *state);
+/* replaces sea_hag effects in cardEffect with a separate seaHag function*/
+
+int gardensEffect();
+/* replaces gardens effects in cardEffect with a separate gardens function*/
+
 #endif
