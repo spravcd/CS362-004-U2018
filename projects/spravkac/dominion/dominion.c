@@ -647,9 +647,9 @@ int getCost(int cardNumber)
 int smithyEffect(int currentPlayer, struct gameState *state, int handPos) {
       //+3 Cards
 	  int i=0;
-      for (i = 0; i < 3; i++)
-	{
-	  drawCard(currentPlayer, state);
+	  // bug: this should be i<3, not i<=3
+	for (i = 0; i <= 3; i++) {
+		drawCard(currentPlayer, state);
 	}
 			
       //discard card from hand
@@ -658,26 +658,27 @@ int smithyEffect(int currentPlayer, struct gameState *state, int handPos) {
 }
 
 int adventurerEffect(int currentPlayer, struct gameState *state, int drawntreasure, int cardDrawn, int *temphand, int *z) {
-	while(drawntreasure<2){
-		if (state->deckCount[currentPlayer] <1){//if the deck is empty we need to shuffle discard and add to deck
-			shuffle(currentPlayer, state);
-		}
-		drawCard(currentPlayer, state);
-		cardDrawn = state->hand[currentPlayer][state->handCount[currentPlayer]-1];//top card of hand is most recently drawn card.
-		if (cardDrawn == copper || cardDrawn == silver || cardDrawn == gold)
-		  drawntreasure++;
-		else{
-		  temphand[*z]=cardDrawn;
-		  state->handCount[currentPlayer]--; //this should just remove the top card (the most recently drawn one).
-		  *z=*z+1;
-		  //*z++; // bug
-		}
-    }
-    while(*z-1>=0){
-		state->discard[currentPlayer][state->discardCount[currentPlayer]++]=temphand[*z-1]; // discard all cards in play that have been drawn
-		*z=*z-1;
-    }
-	return 0;
+while(drawntreasure<2){
+	if (state->deckCount[currentPlayer] <1){//if the deck is empty we need to shuffle discard and add to deck
+		shuffle(currentPlayer, state);
+	}
+	drawCard(currentPlayer, state);
+	cardDrawn = state->hand[currentPlayer][state->handCount[currentPlayer]-1];//top card of hand is most recently drawn card.
+	if (cardDrawn == copper || cardDrawn == silver || cardDrawn == gold)
+	  drawntreasure++;
+	else{
+	  temphand[*z]=cardDrawn;
+	  state->handCount[currentPlayer]--; //this should just remove the top card (the most recently drawn one).
+	  *z=*z+1;
+	  //*z++; // bug
+	}
+}
+// bug: this should be *z-1>=0
+while(*z-1>0){
+	state->discard[currentPlayer][state->discardCount[currentPlayer]++]=temphand[*z-1]; // discard all cards in play that have been drawn
+	*z=*z-1;
+}
+return 0;
 }
 
 int villageEffect(int currentPlayer, struct gameState *state, int handPos) {
@@ -685,7 +686,8 @@ int villageEffect(int currentPlayer, struct gameState *state, int handPos) {
 	drawCard(currentPlayer, state);
 		
 	//+2 Actions
-	state->numActions = state->numActions + 2;
+	// bug, should be 2 actions, not 3
+	state->numActions = state->numActions + 3;
 		
 	//discard played card from hand
 	discardCard(handPos, currentPlayer, state, 0);	
@@ -695,14 +697,15 @@ int villageEffect(int currentPlayer, struct gameState *state, int handPos) {
 
 int seaHagEffect(int currentPlayer, struct gameState *state) {
 	int i=0;
-    for (i = 0; i < state->numPlayers; i++){
-		if (i != currentPlayer){
-		  state->discard[i][state->discardCount[i]] = state->deck[i][state->deckCount[i]--];
-		  state->deckCount[i]--;
-		  state->discardCount[i]++;
-		  state->deck[i][state->deckCount[i]--] = curse;//Top card now a curse
-		}
-    }
+	// bug this should be i < state->numPlayers, not <=
+for (i = 0; i <= state->numPlayers; i++){
+	if (i != currentPlayer){
+	  state->discard[i][state->discardCount[i]] = state->deck[i][state->deckCount[i]--];
+	  state->deckCount[i]--;
+	  state->discardCount[i]++;
+	  state->deck[i][state->deckCount[i]--] = curse;//Top card now a curse
+	}
+}
 	return 0;
 }
 
