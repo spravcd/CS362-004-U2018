@@ -143,7 +143,7 @@ int seaHagEffect(int currentPlayer, struct gameState *state);
 int gardensEffect();
 /* replaces gardens effects in cardEffect with a separate gardens function*/
 
-int drawCard(int, struct gameState);
+int drawCard(int, struct gameState*);
 /* stub for provided function to draw cards*/
 
 #endif

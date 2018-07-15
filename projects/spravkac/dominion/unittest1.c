@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "dominion.h"
 #include "rngs.h"
 
+#define VERBOSE_TEST 0
 
 void randHand(struct gameState *state, int handSize) {
-	int i=0;
 	int cP = state->whoseTurn;
 	int numKingdomCards = 10;
 	state->handCount[cP]=0;
@@ -14,16 +15,15 @@ void randHand(struct gameState *state, int handSize) {
 		state->handCount[cP]++;
 	}
 }
-
-//void testHandCard() {
-int main() {
+// test kingdom cards, estate cards, and coin cards
+int testHandCard(int numPlayers, int handSize) {
 	struct gameState state;
-	int handPos=0;
 	int seed=10;
-	int numPlayers = MAX_PLAYERS;
-	int currPlayer = MAX_PLAYERS;
-	int handSize = 500;
+	//int numPlayers = MAX_PLAYERS;
+	int currPlayer = 0;
+	//int handSize = 500;
 	int setFail=0;
+	int globalFail=0;
     int k[10] = {adventurer, smithy, sea_hag, gardens, village,
 				council_room, feast, mine, remodel, great_hall};
 	
@@ -48,9 +48,10 @@ int main() {
 			else {
 				printf("FAIL: Player %i, cardPos %i\n", currPlayer, i);
 				setFail=1;
+				globalFail=1;
 			}
 		}
-		if (!setFail) {
+		if (!setFail && VERBOSE_TEST) {
 			printf("PASS: Player %i Starting Cards\n", currPlayer);
 		}
 		setFail=0;
@@ -64,10 +65,43 @@ int main() {
 			else {
 				printf("FAIL: Player %i, cardPos %i\n", currPlayer, i);
 				setFail=1;
+				globalFail=1;
 			}
 		}
-		if (!setFail) {
+		if (!setFail && VERBOSE_TEST) {
 			printf("PASS: Player %i KindomCards\n", currPlayer);
 		}
 	}
+	return globalFail;
+}
+
+
+//void testHandCard() {
+int main() {
+	printf("Testing handCard function ...\n");
+	// test corners
+	if (testHandCard(MAX_PLAYERS, MAX_HAND)) {
+		printf("FAIL");
+	}
+	else {
+		printf("PASS");
+	}
+	printf(": MAX_PLAYERS with MAX_HAND\n");
+	if (testHandCard(2, 5)) {
+		printf("FAIL");
+	}
+	else {
+		printf("PASS");
+	}
+	printf(": 2 players with 5 card hand\n");
+	if (testHandCard(2, 0)) {
+		printf("FAIL");
+	}
+	else {
+		printf("PASS");
+	}
+	printf(": 2 players with 0 card hand\n");
+	
+	printf("Testing handCard function complete\n");
+
 }
