@@ -160,6 +160,7 @@ int testGetCost() {
 	return globalFail;
 }
 
+/*
 int main() {
 	printf("Testing getCost function...\n");
 	if (testGetCost()) {
@@ -170,3 +171,4 @@ int main() {
 	}
 	printf("Testing getCost function complete\n");
 }
+*/

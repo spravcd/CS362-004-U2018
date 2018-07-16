@@ -169,6 +169,7 @@ int testfullDeckCount(int card, int numCardsTest) {
 	return globalFail;
 }
 
+/*
 int main() {
 	
 	printf("Testing fullDeckCount function...\n");
@@ -200,3 +201,4 @@ int main() {
 	}
 	printf("Testing fullDeckCount function complete\n");
 }
+*/

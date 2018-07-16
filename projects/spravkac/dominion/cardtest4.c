@@ -7,7 +7,7 @@
 #include "interface.h"
 
 
-int testSmithy() {
+int testGreatHall() {
 	struct gameState state;
 	struct gameState origState;
 	int seed=10;
@@ -19,7 +19,7 @@ int testSmithy() {
 	//int handSize = 500;
 	int numTestCards=5;
 	int globalFail=0;
-	int numDrawn;
+	//int numDrawn;
     int k[10] = {adventurer, smithy, sea_hag, gardens, village,
 				council_room, feast, mine, remodel, great_hall};
 	
@@ -29,13 +29,29 @@ int testSmithy() {
 		state.hand[cP][i] = dummyHandCard;
 		state.deck[cP][i] = dummyDeckCard;
 	}
-	state.hand[cP][0]=smithy;
+	state.hand[cP][0]=great_hall;
 	memcpy(&origState, &state, sizeof(struct gameState));
+	/*printHand(cP, &state);
+	printDeck(cP, &state);
+	printDiscard(cP, &state);
+	printf("actions:%i\n", state.numActions);
+	*/
 	playCard(0, 0,0,0, &state);
-	// check +3 cards (draw 3 and discard 1, should give 2 more cards)
-	numDrawn = state.handCount[cP] +1 - origState.handCount[cP];
-	if (numDrawn != 3) {
-		printf("FAIL: did not receive exactly three cards into hand\n");
+	/*printHand(cP, &state);
+	printDeck(cP, &state);
+	printDiscard(cP, &state);
+	printf("actions:%i\n", state.numActions);
+	*/
+
+	// check card was drawn from hand
+	if (state.hand[cP][0] != origState.deck[cP][0]) {
+		printf("FAIL: did not draw first card from deck");
+		globalFail=1;
+	}
+	
+	// check +1 action (used 1 action to play card, so actions should be equal)
+	if (state.numActions != origState.numActions) {
+		printf("FAIL: did not icrement actions by exactly 1");
 		globalFail=1;
 	}
 	// check that valid cards from deck were drawn
@@ -79,19 +95,19 @@ int testSmithy() {
 			printf("FAIL: state change for supply cards (victory, kingdom)\n");
 		}
 	}
+	
 	return globalFail;
 }
-
 /*
 int main() {
-	printf("Testing Smithy implementation...\n");
+	printf("Testing Great Hall implementation...\n");
 	
-	if (testSmithy()) {
-		printf("Smithy implementation FAILED\n");
+	if (testGreatHall()) {
+		printf("Great Hall implementation FAILED\n");
 	}
 	else {
-		printf("Smithy implementation PASSED\n");
+		printf("Great Hall implementation PASSED\n");
 	}
-	printf("Testing Smithy implementation complete\n");
+	printf("Testing Great Hall implementation complete\n");
 }
 */

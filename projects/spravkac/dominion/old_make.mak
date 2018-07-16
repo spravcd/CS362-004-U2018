@@ -36,8 +36,16 @@ cardtests.o:  interface.o dominion.o rngs.o cardtest1.c cardtest2.c cardtest3.c 
 	gcc -c cardtest1.c cardtest2.c cardtest3.c cardtest4.c -g $(CFLAGS)
 	
 unittestresults: unittests.o cardtests.o
-	gcc -o rununits -g unittestmain.c unittest1.o unittest2.o unittest3.o unittest4.o cardtest1.o cardtest2.o cardtest3.o cardtest4.o dominion.o rngs.o interface.o $(CFLAGS)
-	./rununits &> unittestresults.out
+	gcc -o unittest1 -g unittest1.o dominion.o rngs.o interface.o $(CFLAGS)
+	gcc -o unittest2 -g unittest2.o dominion.o rngs.o interface.o $(CFLAGS)
+	gcc -o unittest3 -g unittest3.o dominion.o rngs.o interface.o $(CFLAGS)
+	gcc -o unittest4 -g unittest4.o dominion.o rngs.o interface.o $(CFLAGS)
+	gcc -o cardtest1 -g cardtest1.o dominion.o rngs.o interface.o $(CFLAGS)
+	gcc -o cardtest2 -g cardtest2.o dominion.o rngs.o interface.o $(CFLAGS)
+	gcc -o cardtest3 -g cardtest3.o dominion.o rngs.o interface.o $(CFLAGS)
+	gcc -o cardtest4 -g cardtest4.o dominion.o rngs.o interface.o $(CFLAGS)
+	./unittest1 &> unittestresults.out
+	./unittest2 &> unittestresults.out
 
 
 player: player.c interface.o

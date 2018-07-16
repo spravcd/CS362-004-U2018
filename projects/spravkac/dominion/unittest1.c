@@ -77,6 +77,7 @@ int testHandCard(int numPlayers, int handSize) {
 
 
 //void testHandCard() {
+	/*
 int main() {
 	printf("Testing handCard function ...\n");
 	// test corners
@@ -105,3 +106,4 @@ int main() {
 	printf("Testing handCard function complete\n");
 
 }
+*/

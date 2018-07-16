@@ -7,7 +7,7 @@
 #include "interface.h"
 
 
-int testSmithy() {
+int testAdventurer() {
 	struct gameState state;
 	struct gameState origState;
 	int seed=10;
@@ -19,7 +19,7 @@ int testSmithy() {
 	//int handSize = 500;
 	int numTestCards=5;
 	int globalFail=0;
-	int numDrawn;
+	//int numDrawn;
     int k[10] = {adventurer, smithy, sea_hag, gardens, village,
 				council_room, feast, mine, remodel, great_hall};
 	
@@ -29,14 +29,46 @@ int testSmithy() {
 		state.hand[cP][i] = dummyHandCard;
 		state.deck[cP][i] = dummyDeckCard;
 	}
-	state.hand[cP][0]=smithy;
+	state.hand[cP][0]=adventurer;
+	state.deck[cP][numTestCards-2] = copper;
+	state.deck[cP][numTestCards-1] = gold;
 	memcpy(&origState, &state, sizeof(struct gameState));
+	//printHand(cP, &state);
+	//printDeck(cP, &state);
+	//printDiscard(cP, &state);
 	playCard(0, 0,0,0, &state);
-	// check +3 cards (draw 3 and discard 1, should give 2 more cards)
-	numDrawn = state.handCount[cP] +1 - origState.handCount[cP];
-	if (numDrawn != 3) {
-		printf("FAIL: did not receive exactly three cards into hand\n");
+	//printHand(cP, &state);
+	//printDeck(cP, &state);
+	//printDiscard(cP, &state);
+	
+	// check that the two (and only two!) treasure cards now appear in the hand
+	int copperCount=0;
+	int goldCount=0;
+	for (i=0; i < state.handCount[cP]; i++) {
+		if (state.hand[cP][i] == copper) {
+			copperCount++;
+		}
+		else if (state.hand[cP][i] == gold) {
+			goldCount++;
+		}
+	}
+	if (copperCount != 1 || goldCount != 1) {
+		printf("FAIL: wrong treasure count in hand");
+		globalFail = 1;
+	}
+	// check that bypassed cards were discarded
+	// this works because you put the treasure cards at the back of the deck, so everything but those
+	// guys should be discarded
+	if (state.discardCount[cP] != origState.discardCount[cP] + origState.deckCount[cP] -2) {
+		printf("FAIL: wrong number of cards discarded\n");
 		globalFail=1;
+	}
+	// check to make sure only the correct stuff was discarded
+	for (i=0; i < state.discardCount[cP]; i++) {
+		if (state.discard[cP][i] != dummyDeckCard) {
+		printf("FAIL: wrong card discarded\n");
+		globalFail=1;			
+		}
 	}
 	// check that valid cards from deck were drawn
 	if (fullDeckCount(cP, dummyDeckCard, &origState) != fullDeckCount(cP, dummyDeckCard, &state)) {
@@ -44,6 +76,14 @@ int testSmithy() {
 		globalFail=1;
 	}
 	if (fullDeckCount(cP, dummyHandCard, &origState) != fullDeckCount(cP, dummyHandCard, &state)) {
+		printf("FAIL: cards not conserved during draw\n");
+		globalFail=1;
+	}
+	if (fullDeckCount(cP, copper, &origState) != fullDeckCount(cP, copper, &state)) {
+		printf("FAIL: cards not conserved during draw\n");
+		globalFail=1;
+	}
+	if (fullDeckCount(cP, gold, &origState) != fullDeckCount(cP, gold, &state)) {
 		printf("FAIL: cards not conserved during draw\n");
 		globalFail=1;
 	}
@@ -79,19 +119,21 @@ int testSmithy() {
 			printf("FAIL: state change for supply cards (victory, kingdom)\n");
 		}
 	}
+	
+	
 	return globalFail;
 }
 
 /*
 int main() {
-	printf("Testing Smithy implementation...\n");
+	printf("Testing Adventurer implementation...\n");
 	
-	if (testSmithy()) {
-		printf("Smithy implementation FAILED\n");
+	if (testAdventurer()) {
+		printf("Adventurer implementation FAILED\n");
 	}
 	else {
-		printf("Smithy implementation PASSED\n");
+		printf("Adventurer implementation PASSED\n");
 	}
-	printf("Testing Smithy implementation complete\n");
+	printf("Testing Adventurer implementation complete\n");
 }
 */

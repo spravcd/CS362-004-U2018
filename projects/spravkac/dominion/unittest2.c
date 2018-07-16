@@ -91,7 +91,7 @@ int testIsGameOver() {
 	}
 	return globalFail;
 }
-
+/*
 int main() {
 	printf("Testing isGameOver function...\n");
 	
@@ -103,3 +103,4 @@ int main() {
 	}
 	printf("Testing isGameOver function complete\n");
 }
+*/
