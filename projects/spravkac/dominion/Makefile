@@ -38,6 +38,8 @@ cardtests.o:  interface.o dominion.o rngs.o cardtest1.c cardtest2.c cardtest3.c 
 unittestresults: unittests.o cardtests.o
 	gcc -o rununits -g unittestmain.c unittest1.o unittest2.o unittest3.o unittest4.o cardtest1.o cardtest2.o cardtest3.o cardtest4.o dominion.o rngs.o interface.o $(CFLAGS)
 	./rununits &> unittestresults.out
+	gcov dominion.c >> unittestresults.out
+	cat dominion.c.gcov >> unittestresults.out
 
 
 player: player.c interface.o
