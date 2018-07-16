@@ -14,7 +14,6 @@ int testfullDeckCount(int card, int numCardsTest) {
 	int i;
 	int dummyCard;
 	//int handSize = 500;
-	int setFail=0;
 	int globalFail=0;
     int k[10] = {adventurer, smithy, sea_hag, gardens, village,
 				council_room, feast, mine, remodel, great_hall};

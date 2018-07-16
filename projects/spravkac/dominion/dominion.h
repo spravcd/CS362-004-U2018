@@ -49,7 +49,8 @@ enum CARD
    outpost,
    salvager, /* choice1 = hand# to trash */
    sea_hag,
-   treasure_map
+   treasure_map,
+   card_count /* this must be last, if any new cards are added, this will auto-update the count */
   };
 
 struct gameState {
@@ -145,5 +146,8 @@ int gardensEffect();
 
 int drawCard(int, struct gameState*);
 /* stub for provided function to draw cards*/
+
+int getCost(int);
+/* stub for provided function to get card cost*/
 
 #endif
