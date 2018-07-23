@@ -150,4 +150,7 @@ int drawCard(int, struct gameState*);
 int getCost(int);
 /* stub for provided function to get card cost*/
 
+int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int *bonus);
+/* stub for provided function to get card effect */
+
 #endif

@@ -1,3 +1,7 @@
+/* 
+unit test for great hall card 
+22 JUL 2018
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -36,7 +40,8 @@ int testGreatHall() {
 	printDiscard(cP, &state);
 	printf("actions:%i\n", state.numActions);
 	*/
-	playCard(0, 0,0,0, &state);
+	//playCard(0, 0,0,0, &state);
+	cardEffect(great_hall, 0,0,0, &state, 0, 0);
 	/*printHand(cP, &state);
 	printDeck(cP, &state);
 	printDiscard(cP, &state);
@@ -49,8 +54,8 @@ int testGreatHall() {
 		globalFail=1;
 	}
 	
-	// check +1 action (used 1 action to play card, so actions should be equal)
-	if (state.numActions != origState.numActions) {
+	// check +1 action (used 1 action to play card, so actions should be equal only if using 'playCard func')
+	if (state.numActions != origState.numActions+1) {
 		printf("FAIL: did not icrement actions by exactly 1");
 		globalFail=1;
 	}

@@ -1,3 +1,7 @@
+/* 
+unit test for handCard function to determine value of card at handPos 
+22 JUL 2018
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>

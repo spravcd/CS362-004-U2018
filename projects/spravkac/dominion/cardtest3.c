@@ -1,3 +1,7 @@
+/* 
+unit test for village card 
+22 JUL 2018
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -36,7 +40,8 @@ int testVillage() {
 	printDiscard(cP, &state);
 	printf("actions:%i\n", state.numActions);
 	*/
-	playCard(0, 0,0,0, &state);
+	//playCard(0, 0,0,0, &state);
+	cardEffect(village, 0,0,0, &state, 0, 0);
 	/*printHand(cP, &state);
 	printDeck(cP, &state);
 	printDiscard(cP, &state);
@@ -48,8 +53,8 @@ int testVillage() {
 		printf("FAIL: did not draw first card from deck");
 		globalFail=1;
 	}
-	// check additional +2 actions (although 1 was required to play the card)
-	if (state.numActions != origState.numActions+1) {
+	// check additional +2 actions (although 1 was required to play the card only if using playCard func)
+	if (state.numActions != origState.numActions+2) {
 		printf("FAIL: did not provide exactly 2 additional actions\n");
 		globalFail=1;
 	}

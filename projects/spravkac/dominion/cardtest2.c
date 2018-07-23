@@ -1,5 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+/* 
+unit test for adventurer card 
+22 JUL 2018
+*/
 #include <math.h>
 #include <string.h>
 #include "dominion.h"
@@ -36,7 +40,8 @@ int testAdventurer() {
 	//printHand(cP, &state);
 	//printDeck(cP, &state);
 	//printDiscard(cP, &state);
-	playCard(0, 0,0,0, &state);
+	//playCard(0, 0,0,0, &state);
+	cardEffect(adventurer, 0,0,0, &state, 0, 0);
 	//printHand(cP, &state);
 	//printDeck(cP, &state);
 	//printDiscard(cP, &state);

@@ -1,3 +1,7 @@
+/* 
+unit test for getCost function to get card cost 
+22 JUL 2018
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>

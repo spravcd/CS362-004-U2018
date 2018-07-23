@@ -1,3 +1,7 @@
+/* 
+unit test for isGameOver function to determine resolution of victory conditions 
+22 JUL 2018
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>

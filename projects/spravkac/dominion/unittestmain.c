@@ -5,6 +5,7 @@
 #include "dominion.h"
 #include "rngs.h"
 #include "interface.h"
+#include "unittests.h"
 
 int main() {
 	// unit test 1

@@ -1,3 +1,7 @@
+/* 
+unit test for fullDeckCount function to total number of a card in hand + deck + discard 
+22 JUL 2018
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>

@@ -1,3 +1,7 @@
+/* 
+unit test for smithy card 
+22 JUL 2018
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -5,6 +9,8 @@
 #include "dominion.h"
 #include "rngs.h"
 #include "interface.h"
+
+
 
 
 int testSmithy() {
@@ -31,7 +37,8 @@ int testSmithy() {
 	}
 	state.hand[cP][0]=smithy;
 	memcpy(&origState, &state, sizeof(struct gameState));
-	playCard(0, 0,0,0, &state);
+	//playCard(0, 0,0,0, &state);
+	cardEffect(smithy, 0,0,0, &state, 0, 0);
 	// check +3 cards (draw 3 and discard 1, should give 2 more cards)
 	numDrawn = state.handCount[cP] +1 - origState.handCount[cP];
 	if (numDrawn != 3) {

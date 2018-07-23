@@ -35,7 +35,7 @@ unittests.o: dominion.o rngs.o unittest1.c unittest2.c unittest3.c unittest4.c i
 cardtests.o:  interface.o dominion.o rngs.o cardtest1.c cardtest2.c cardtest3.c cardtest4.c 
 	gcc -c cardtest1.c cardtest2.c cardtest3.c cardtest4.c -g $(CFLAGS)
 	
-unittestresults: unittests.o cardtests.o
+unittestresults: unittests.o cardtests.o unittestmain.c unittests.h
 	gcc -o rununits -g unittestmain.c unittest1.o unittest2.o unittest3.o unittest4.o cardtest1.o cardtest2.o cardtest3.o cardtest4.o dominion.o rngs.o interface.o $(CFLAGS)
 	./rununits &> unittestresults.out
 	gcov dominion.c >> unittestresults.out
