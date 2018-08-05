@@ -49,7 +49,8 @@ enum CARD
    outpost,
    salvager, /* choice1 = hand# to trash */
    sea_hag,
-   treasure_map
+   treasure_map,
+   card_count /* this must be last, if any new cards are added, this will auto-update the count */
   };
 
 struct gameState {
@@ -131,7 +132,7 @@ int getWinners(int players[MAX_PLAYERS], struct gameState *state);
 int smithyEffect(int currentPlayer, struct gameState *state, int handPos);
 /* replaces smithy effects in cardEffect function with a separate smithy function */
 
-int adventurerEffect(int currentPlayer, struct gameState *state, int drawntreasure, int cardDrawn, int *temphand, int *z);
+int adventurerEffect(int currentPlayer, struct gameState *state, int drawntreasure, int cardDrawn, int *temphand);
 /* replaces adventurer effects in cardEffect with a separate adventurer function*/
 
 int villageEffect(int currentPlayer, struct gameState *state, int handPos);
@@ -142,5 +143,14 @@ int seaHagEffect(int currentPlayer, struct gameState *state);
 
 int gardensEffect();
 /* replaces gardens effects in cardEffect with a separate gardens function*/
+
+int drawCard(int, struct gameState*);
+/* stub for provided function to draw cards*/
+
+int getCost(int);
+/* stub for provided function to get card cost*/
+
+int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int *bonus);
+/* stub for provided function to get card effect */
 
 #endif

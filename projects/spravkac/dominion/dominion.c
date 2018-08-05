@@ -643,6 +643,7 @@ int getCost(int cardNumber)
   return -1;
 }
 
+
 // note that handPos and currentPlayer do not have to be passed by reference
 int smithyEffect(int currentPlayer, struct gameState *state, int handPos) {
       //+3 Cards
@@ -657,8 +658,11 @@ int smithyEffect(int currentPlayer, struct gameState *state, int handPos) {
       return 0;
 }
 
-int adventurerEffect(int currentPlayer, struct gameState *state, int drawntreasure, int cardDrawn, int *temphand, int *z) {
+int adventurerEffect(int currentPlayer, struct gameState *state, int drawntreasure, int cardDrawn, int *temphand) {
+	int z=0;
+	int temphand1[MAX_HAND];// moved above the if statement
 while(drawntreasure<2){
+
 	if (state->deckCount[currentPlayer] <1){//if the deck is empty we need to shuffle discard and add to deck
 		shuffle(currentPlayer, state);
 	}
@@ -667,16 +671,16 @@ while(drawntreasure<2){
 	if (cardDrawn == copper || cardDrawn == silver || cardDrawn == gold)
 	  drawntreasure++;
 	else{
-	  temphand[*z]=cardDrawn;
+	  temphand1[z]=cardDrawn;
 	  state->handCount[currentPlayer]--; //this should just remove the top card (the most recently drawn one).
-	  *z=*z+1;
+	  z=z+1;
 	  //*z++; // bug
 	}
 }
 // bug: this should be *z-1>=0
-while(*z-1>0){
-	state->discard[currentPlayer][state->discardCount[currentPlayer]++]=temphand[*z-1]; // discard all cards in play that have been drawn
-	*z=*z-1;
+while(z-1>0){
+	state->discard[currentPlayer][state->discardCount[currentPlayer]++]=temphand1[z-1]; // discard all cards in play that have been drawn
+	z=z-1;
 }
 return 0;
 }
@@ -727,7 +731,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
   int temphand[MAX_HAND];// moved above the if statement
   int drawntreasure=0;
   int cardDrawn=0;
-  int z = 0;// this is the counter for the temp hand
+  //int z = 0;// this is the counter for the temp hand
   if (nextPlayer > (state->numPlayers - 1)){
     nextPlayer = 0;
   }
@@ -757,7 +761,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 	z=z-1;
       }
 	  */
-      return adventurerEffect(currentPlayer, state, drawntreasure, cardDrawn, temphand, &z);
+      return adventurerEffect(currentPlayer, state, drawntreasure, cardDrawn, temphand);
 			
     case council_room:
       //+4 Cards
