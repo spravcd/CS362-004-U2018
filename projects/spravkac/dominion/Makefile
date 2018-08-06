@@ -48,8 +48,21 @@ randomtests: dominion.o rngs.o randomtestadventurer.c randomtestcard1.c randomte
 	
 randomtestresults: randomtests randomtestadventurer.o dominion.o rngs.o randomtestadventurer.c randomtestcard1.c randomtestcard2.c
 	gcc -o randomtestadventurer -g randomtestadventurer.o dominion.o rngs.o interface.o $(CFLAGS)
+	./randomtestadventurer &> randomtestadventurer.out
+	gcov -f -b dominion.c >> randomtestadventurer.out
+	cat dominion.c.gcov >> randomtestadventurer.out
+	
+	rm *.gcov *.gcda 
 	gcc -o randomtestcard1 -g randomtestcard1.o dominion.o rngs.o interface.o $(CFLAGS)
-	gcc -o randomtestcard2 -g randomtestcard2.o dominion.o rngs.o interface.o $(CFLAGS)	
+	./randomtestcard1 &> randomtestcard1.out
+	gcov -f -b dominion.c >> randomtestcard1.out
+	cat dominion.c.gcov >> randomtestcard1.out
+	
+	rm *.gcov *.gcda 
+	gcc -o randomtestcard2 -g randomtestcard2.o dominion.o rngs.o interface.o $(CFLAGS)
+	./randomtestcard2 &> randomtestcard2.out
+	gcov -f -b dominion.c >> randomtestcard2.out
+	cat dominion.c.gcov >> randomtestcard2.out
 
 player: player.c interface.o
 	gcc -o player player.c -g  dominion.o rngs.o interface.o $(CFLAGS)

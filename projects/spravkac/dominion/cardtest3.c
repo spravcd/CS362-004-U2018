@@ -104,6 +104,7 @@ int testVillage() {
 
 }
 
+/*
 int main() {
 	printf("Testing village implementation...\n");
 	
@@ -115,3 +116,4 @@ int main() {
 	}
 	printf("Testing village implementation complete\n");
 }
+*/

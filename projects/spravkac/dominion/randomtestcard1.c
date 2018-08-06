@@ -45,22 +45,9 @@ int testSmithy(int numHand, int numDeck) {
 	int seed=10;
 	int numPlayers = MAX_PLAYERS;
 	int cP = 0; // currentPlayer
-	int i,j;
-	int numCopper = 0;
-	int numSilver = 0;
-	int numGold= 0 ;
-	int numDiscarded=0;
-	int treasureCount=0;
-	int firstTreasure=-1;
-	
-	int dummyHandCard = sea_hag;
-	int dummyDeckCard = gardens;
-	int numTestCards=5;
-	
-	int numDrawn;
+	int i,j,numDrawn;
 	
 	int globalFail=0;
-	//int numDrawn;
 	
     int k[10] = {adventurer, smithy, sea_hag, gardens, village,
 				council_room, feast, mine, remodel, great_hall};
@@ -71,13 +58,8 @@ int testSmithy(int numHand, int numDeck) {
 		numPlayers=2;
 	}
 	initializeGame(numPlayers, k, seed, &state);	
-	//printf("hand %i, deck %i\n", numTestHand, numTestDeck);
+
 	// random card types
-	int random=1;
-	if (random==1) {
-	// random number of cards
-	//state.handCount[cP] = (int)floor(Random()*6);
-	//state.deckCount[cP] = (int)floor(Random()*6);
 	state.handCount[cP] = numHand;
 	state.deckCount[cP] = numDeck;
 	for (i=0;i<state.handCount[cP]; i++) {
@@ -86,17 +68,8 @@ int testSmithy(int numHand, int numDeck) {
 	for (i=0;i<state.deckCount[cP]; i++) {
 		state.deck[cP][i] = getCard((int)floor(Random()*17), k); // there are 10 kingom cards + 3 estate + curse + treasure
 	}	
-	}
-	else {
-	for (i=0; i< numTestCards; i++) {
-		state.hand[cP][i] = dummyHandCard;
-		state.deck[cP][i] = dummyDeckCard;
-	}
-	state.hand[cP][0]=adventurer;
-	state.deck[cP][numTestCards-2] = copper;
-	state.deck[cP][numTestCards-1] = gold;
 
-	}
+	// put test card in hand
 	state.hand[cP][0]=smithy;
 	if (PRINT_CARDS) {
 		printHand(cP, &state);
@@ -124,7 +97,6 @@ int testSmithy(int numHand, int numDeck) {
 			printf("FAIL: did not receive exactly three cards into hand\n");
 		globalFail=1;
 	}
-
 
 	// check that valid cards from deck were drawn
 	for (i=0; i< 17; i++) {

@@ -51,14 +51,8 @@ int testAdventurer(int numHand, int numDeck) {
 	int numGold= 0 ;
 	int numDiscarded=0;
 	int treasureCount=0;
-	int firstTreasure=-1;
-	
-	int dummyHandCard = sea_hag;
-	int dummyDeckCard = gardens;
-	int numTestCards=5;
-	
+
 	int globalFail=0;
-	//int numDrawn;
 	
     int k[10] = {adventurer, smithy, sea_hag, gardens, village,
 				council_room, feast, mine, remodel, great_hall};
@@ -69,13 +63,7 @@ int testAdventurer(int numHand, int numDeck) {
 		numPlayers=2;
 	}
 	initializeGame(numPlayers, k, seed, &state);	
-	//printf("hand %i, deck %i\n", numTestHand, numTestDeck);
 	// random card types
-	int random=1;
-	if (random==1) {
-	// random number of cards
-	//state.handCount[cP] = (int)floor(Random()*6);
-	//state.deckCount[cP] = (int)floor(Random()*6);
 	state.handCount[cP] = numHand;
 	state.deckCount[cP] = numDeck;
 	for (i=0;i<state.handCount[cP]; i++) {
@@ -84,17 +72,7 @@ int testAdventurer(int numHand, int numDeck) {
 	for (i=0;i<state.deckCount[cP]; i++) {
 		state.deck[cP][i] = getCard((int)floor(Random()*17), k); // there are 10 kingom cards + 3 estate + curse + treasure
 	}	
-	}
-	else {
-	for (i=0; i< numTestCards; i++) {
-		state.hand[cP][i] = dummyHandCard;
-		state.deck[cP][i] = dummyDeckCard;
-	}
-	state.hand[cP][0]=adventurer;
-	state.deck[cP][numTestCards-2] = copper;
-	state.deck[cP][numTestCards-1] = gold;
-
-	}
+	// put the test card in the hand
 	state.hand[cP][0]=adventurer;
 	if (PRINT_CARDS) {
 		printHand(cP, &state);
@@ -247,7 +225,7 @@ int testAdventurer(int numHand, int numDeck) {
 		}
 	}
 	
-	if (globalFail) {
+	if (globalFail && NOISY_TEST) {
 		printHand(cP, &origState);
 		printDeck(cP, &origState);
 		printDiscard(cP, &origState);
@@ -284,7 +262,6 @@ int main() {
 			//i=numRuns;
 			//printf("Adventurer implementation FAILED\n");
 			failed=1;
-			i=numRuns+1;
 		}
 	}
 

@@ -14,6 +14,7 @@ random random unit test for village card
 #define NOISY_TEST 0
 #define PRINT_CARDS 0
 
+// helper function to get the correct card easily
 int getCard(int cardRef, int* kindomCards) {
 	if (cardRef < 10) {
 		return kindomCards[cardRef];
@@ -24,10 +25,12 @@ int getCard(int cardRef, int* kindomCards) {
 	}	
 }
 
+// helper rand function
 int dispRand(int max) {
 	return (int)floor(Random()*max);
 }
 
+// helper function similar to fullDeckCount but queries playedCards
 int playedCardCount(struct gameState* state, int card) {
 	int i;
 	int count=0;
@@ -46,21 +49,8 @@ int testVillage(int numHand, int numDeck) {
 	int numPlayers = MAX_PLAYERS;
 	int cP = 0; // currentPlayer
 	int i,j;
-	int numCopper = 0;
-	int numSilver = 0;
-	int numGold= 0 ;
-	int numDiscarded=0;
-	int treasureCount=0;
-	int firstTreasure=-1;
-	
-	int dummyHandCard = sea_hag;
-	int dummyDeckCard = gardens;
-	int numTestCards=5;
-	
-	int numDrawn;
 	
 	int globalFail=0;
-	//int numDrawn;
 	
     int k[10] = {adventurer, smithy, sea_hag, gardens, village,
 				council_room, feast, mine, remodel, great_hall};
@@ -71,13 +61,8 @@ int testVillage(int numHand, int numDeck) {
 		numPlayers=2;
 	}
 	initializeGame(numPlayers, k, seed, &state);	
-	//printf("hand %i, deck %i\n", numTestHand, numTestDeck);
+
 	// random card types
-	int random=1;
-	if (random==1) {
-	// random number of cards
-	//state.handCount[cP] = (int)floor(Random()*6);
-	//state.deckCount[cP] = (int)floor(Random()*6);
 	state.handCount[cP] = numHand;
 	state.deckCount[cP] = numDeck;
 	for (i=0;i<state.handCount[cP]; i++) {
@@ -86,10 +71,6 @@ int testVillage(int numHand, int numDeck) {
 	for (i=0;i<state.deckCount[cP]; i++) {
 		state.deck[cP][i] = getCard((int)floor(Random()*17), k); // there are 10 kingom cards + 3 estate + curse + treasure
 	}	
-	}
-	else {
-
-	}
 	state.hand[cP][0]=village;
 	if (PRINT_CARDS) {
 		printHand(cP, &state);
@@ -100,8 +81,6 @@ int testVillage(int numHand, int numDeck) {
 	memcpy(&origState, &state, sizeof(struct gameState));
 	cardEffect(village, 0,0,0, &state, 0, 0);
 	
-	//playCard(0, 0,0,0, &state);
-	
 	if (PRINT_CARDS) {
 		printHand(cP, &state);
 		printDeck(cP, &state);
@@ -111,7 +90,6 @@ int testVillage(int numHand, int numDeck) {
 	
 	// oracle code
 	// check +1 cards (draw 1 and discard 1, should give equal ammounts)
-	numDrawn = state.handCount[cP] +1 - origState.handCount[cP];
 	if (state.handCount[cP] != origState.handCount[cP]) {
 		if(NOISY_TEST)
 			printf("FAIL: did not receive exactly three cards into hand\n");
@@ -119,12 +97,14 @@ int testVillage(int numHand, int numDeck) {
 	}
 	// check addition of 1 card to hand from deck
 	if (state.hand[cP][0] != origState.deck[cP][origState.deckCount[cP]-1]) {
-		printf("FAIL: did not draw first card from deck\n");
+		if(NOISY_TEST)
+			printf("FAIL: did not draw first card from deck\n");
 		globalFail=1;
 	}
 	// check additional +2 actions (although 1 was required to play the card only if using playCard func)
 	if (state.numActions != origState.numActions+2) {
-		printf("FAIL: did not provide exactly 2 additional actions\n");
+		if(NOISY_TEST)
+			printf("FAIL: did not provide exactly 2 additional actions\n");
 		globalFail=1;
 	}
 	// check that valid cards from deck were drawn
@@ -172,7 +152,6 @@ int testVillage(int numHand, int numDeck) {
 			globalFail=1;
 		}
 	}
-	
 
 	return globalFail;
 }
