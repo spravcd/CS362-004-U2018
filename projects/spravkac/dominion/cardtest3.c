@@ -35,18 +35,18 @@ int testVillage() {
 	}
 	state.hand[cP][0]=village;
 	memcpy(&origState, &state, sizeof(struct gameState));
-	/*printHand(cP, &state);
+	printHand(cP, &state);
 	printDeck(cP, &state);
 	printDiscard(cP, &state);
 	printf("actions:%i\n", state.numActions);
-	*/
+
 	//playCard(0, 0,0,0, &state);
 	cardEffect(village, 0,0,0, &state, 0, 0);
-	/*printHand(cP, &state);
+	printHand(cP, &state);
 	printDeck(cP, &state);
 	printDiscard(cP, &state);
 	printf("actions:%i\n", state.numActions);
-	*/
+	
 	
 	// check addition of 1 card to hand from deck
 	if (state.hand[cP][0] != origState.deck[cP][0]) {
@@ -103,7 +103,7 @@ int testVillage() {
 	return globalFail;
 
 }
-/*
+
 int main() {
 	printf("Testing village implementation...\n");
 	
@@ -115,4 +115,3 @@ int main() {
 	}
 	printf("Testing village implementation complete\n");
 }
-*/

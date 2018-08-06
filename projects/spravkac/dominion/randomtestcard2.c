@@ -12,6 +12,7 @@ random random unit test for village card
 #include<time.h>
 
 #define NOISY_TEST 0
+#define PRINT_CARDS 0
 
 int getCard(int cardRef, int* kindomCards) {
 	if (cardRef < 10) {
@@ -25,6 +26,17 @@ int getCard(int cardRef, int* kindomCards) {
 
 int dispRand(int max) {
 	return (int)floor(Random()*max);
+}
+
+int playedCardCount(struct gameState* state, int card) {
+	int i;
+	int count=0;
+	for (i=0; i<state->playedCardCount; i++) {
+		if (state->playedCards[i] == card) {
+			count++;
+		}
+	}
+	return count;
 }
 
 int testVillage(int numHand, int numDeck) {
@@ -79,31 +91,45 @@ int testVillage(int numHand, int numDeck) {
 
 	}
 	state.hand[cP][0]=village;
-	printHand(cP, &state);
-	printDeck(cP, &state);
-	printDiscard(cP, &state);
+	if (PRINT_CARDS) {
+		printHand(cP, &state);
+		printDeck(cP, &state);
+		printDiscard(cP, &state);
+		printPlayed(cP, &state);
+	}
 	memcpy(&origState, &state, sizeof(struct gameState));
-	cardEffect(smithy, 0,0,0, &state, 0, 0);
+	cardEffect(village, 0,0,0, &state, 0, 0);
 	
 	//playCard(0, 0,0,0, &state);
 	
-	printHand(cP, &state);
-	printDeck(cP, &state);
-	printDiscard(cP, &state);
+	if (PRINT_CARDS) {
+		printHand(cP, &state);
+		printDeck(cP, &state);
+		printDiscard(cP, &state);
+		printPlayed(cP, &state);
+	}
 	
 	// oracle code
-	// check +3 cards (draw 3 and discard 1, should give 2 more cards)
+	// check +1 cards (draw 1 and discard 1, should give equal ammounts)
 	numDrawn = state.handCount[cP] +1 - origState.handCount[cP];
-	if (numDrawn != 3) {
+	if (state.handCount[cP] != origState.handCount[cP]) {
 		if(NOISY_TEST)
 			printf("FAIL: did not receive exactly three cards into hand\n");
 		globalFail=1;
 	}
-
-
+	// check addition of 1 card to hand from deck
+	if (state.hand[cP][0] != origState.deck[cP][origState.deckCount[cP]-1]) {
+		printf("FAIL: did not draw first card from deck\n");
+		globalFail=1;
+	}
+	// check additional +2 actions (although 1 was required to play the card only if using playCard func)
+	if (state.numActions != origState.numActions+2) {
+		printf("FAIL: did not provide exactly 2 additional actions\n");
+		globalFail=1;
+	}
 	// check that valid cards from deck were drawn
 	for (i=0; i< 17; i++) {
-		if (fullDeckCount(cP, i, &origState) != fullDeckCount(cP, i, &state)) {
+		if (fullDeckCount(cP, i, &origState) != fullDeckCount(cP, i, &state) + playedCardCount(&state, i)) {
 			if (NOISY_TEST)
 				printf("FAIL: cards not conserved during draw\n");
 			globalFail=1;
@@ -143,6 +169,7 @@ int testVillage(int numHand, int numDeck) {
 		if (state.supplyCount[i] != origState.supplyCount[i]) {
 			if (NOISY_TEST)
 				printf("FAIL: state change for supply cards (victory, kingdom)\n");
+			globalFail=1;
 		}
 	}
 	
@@ -152,13 +179,13 @@ int testVillage(int numHand, int numDeck) {
 
 
 int main() {
-	printf("Testing Smithy implementation...\n");
+	printf("Testing Village implementation...\n");
 	
 	//set up random number geSnerator
 	SelectStream(1);
 	PutSeed((long)time(NULL));	
 	int i;
-	int numRuns=1;
+	int numRuns=10000;
 	int failed=0;
 	int numHand = dispRand(MAX_HAND);
 	int numDeck = dispRand(MAX_DECK);
@@ -168,22 +195,22 @@ int main() {
 	for (i=0; i< numRuns; i++) {
 		numHand = dispRand(MAX_HAND);
 		numDeck = dispRand(MAX_DECK);
-		numHand = 5;
-		numDeck = 5;
-		if (testSmithy(numHand, numDeck)) {
-			//printf("Smithy implementation FAILED\n");
+		//numHand = 8;
+		//numDeck = 8;
+		if (testVillage(numHand, numDeck)) {
+			//printf("Village implementation FAILED\n");
 			//i=numRuns;
 			failed=1;
 		}
 	}
 
 	if (failed) {
-		printf("Smithy implementation FAILED\n");
+		printf("Village implementation FAILED\n");
 	}
 	else {
-		printf("Smithy implementation PASSED\n");
+		printf("Village implementation PASSED\n");
 	}
-	printf("Testing Smithy implementation complete\n");
+	printf("Testing Village implementation complete\n");
 	
 }
 

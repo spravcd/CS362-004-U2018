@@ -12,6 +12,7 @@ random random unit test for smithy card
 #include<time.h>
 
 #define NOISY_TEST 0
+#define PRINT_CARDS 0
 
 int getCard(int cardRef, int* kindomCards) {
 	if (cardRef < 10) {
@@ -25,6 +26,17 @@ int getCard(int cardRef, int* kindomCards) {
 
 int dispRand(int max) {
 	return (int)floor(Random()*max);
+}
+
+int playedCardCount(struct gameState* state, int card) {
+	int i;
+	int count=0;
+	for (i=0; i<state->playedCardCount; i++) {
+		if (state->playedCards[i] == card) {
+			count++;
+		}
+	}
+	return count;
 }
 
 int testSmithy(int numHand, int numDeck) {
@@ -86,17 +98,23 @@ int testSmithy(int numHand, int numDeck) {
 
 	}
 	state.hand[cP][0]=smithy;
-	printHand(cP, &state);
-	printDeck(cP, &state);
-	printDiscard(cP, &state);
+	if (PRINT_CARDS) {
+		printHand(cP, &state);
+		printDeck(cP, &state);
+		printDiscard(cP, &state);
+		printPlayed(cP, &state);
+	}
 	memcpy(&origState, &state, sizeof(struct gameState));
 	cardEffect(smithy, 0,0,0, &state, 0, 0);
 	
 	//playCard(0, 0,0,0, &state);
 	
-	printHand(cP, &state);
-	printDeck(cP, &state);
-	printDiscard(cP, &state);
+	if (PRINT_CARDS) {
+		printHand(cP, &state);
+		printDeck(cP, &state);
+		printDiscard(cP, &state);
+		printPlayed(cP, &state);
+	}
 	
 	// oracle code
 	// check +3 cards (draw 3 and discard 1, should give 2 more cards)
@@ -110,7 +128,7 @@ int testSmithy(int numHand, int numDeck) {
 
 	// check that valid cards from deck were drawn
 	for (i=0; i< 17; i++) {
-		if (fullDeckCount(cP, i, &origState) != fullDeckCount(cP, i, &state)) {
+		if (fullDeckCount(cP, i, &origState) != fullDeckCount(cP, i, &state) + playedCardCount(&state, i)) {
 			if (NOISY_TEST)
 				printf("FAIL: cards not conserved during draw\n");
 			globalFail=1;
@@ -150,6 +168,7 @@ int testSmithy(int numHand, int numDeck) {
 		if (state.supplyCount[i] != origState.supplyCount[i]) {
 			if (NOISY_TEST)
 				printf("FAIL: state change for supply cards (victory, kingdom)\n");
+			globalFail=1;
 		}
 	}
 	
@@ -165,7 +184,7 @@ int main() {
 	SelectStream(1);
 	PutSeed((long)time(NULL));	
 	int i;
-	int numRuns=1;
+	int numRuns=10000;
 	int failed=0;
 	int numHand = dispRand(MAX_HAND);
 	int numDeck = dispRand(MAX_DECK);
@@ -175,8 +194,8 @@ int main() {
 	for (i=0; i< numRuns; i++) {
 		numHand = dispRand(MAX_HAND);
 		numDeck = dispRand(MAX_DECK);
-		numHand = 5;
-		numDeck = 5;
+		//numHand = 5;
+		//numDeck = 5;
 		if (testSmithy(numHand, numDeck)) {
 			//printf("Smithy implementation FAILED\n");
 			//i=numRuns;

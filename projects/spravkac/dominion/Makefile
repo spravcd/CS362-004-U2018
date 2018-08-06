@@ -41,14 +41,15 @@ unittestresults: unittests.o cardtests.o unittestmain.c unittests.h
 	gcov dominion.c >> unittestresults.out
 	cat dominion.c.gcov >> unittestresults.out
 
-randomtests: dominion.o rngs.o randomtestadventurer.c randomtestcard1.c
+randomtests: dominion.o rngs.o randomtestadventurer.c randomtestcard1.c randomtestcard2.c
 	gcc -c randomtestadventurer.c -g $(CFLAGS)
 	gcc -c randomtestcard1.c -g $(CFLAGS)
+	gcc -c randomtestcard2.c -g $(CFLAGS)
 	
-randomtestresults: randomtests randomtestadventurer.o dominion.o rngs.o randomtestadventurer.c randomtestcard1.c
+randomtestresults: randomtests randomtestadventurer.o dominion.o rngs.o randomtestadventurer.c randomtestcard1.c randomtestcard2.c
 	gcc -o randomtestadventurer -g randomtestadventurer.o dominion.o rngs.o interface.o $(CFLAGS)
 	gcc -o randomtestcard1 -g randomtestcard1.o dominion.o rngs.o interface.o $(CFLAGS)
-	
+	gcc -o randomtestcard2 -g randomtestcard2.o dominion.o rngs.o interface.o $(CFLAGS)	
 
 player: player.c interface.o
 	gcc -o player player.c -g  dominion.o rngs.o interface.o $(CFLAGS)

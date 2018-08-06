@@ -12,6 +12,7 @@ random unit test for adventurer card
 #include<time.h>
 
 #define NOISY_TEST 0
+#define PRINT_CARDS 0
 
 int getCard(int cardRef, int* kindomCards) {
 	if (cardRef < 10) {
@@ -25,6 +26,17 @@ int getCard(int cardRef, int* kindomCards) {
 
 int dispRand(int max) {
 	return (int)floor(Random()*max);
+}
+
+int playedCardCount(struct gameState* state, int card) {
+	int i;
+	int count=0;
+	for (i=0; i<state->playedCardCount; i++) {
+		if (state->playedCards[i] == card) {
+			count++;
+		}
+	}
+	return count;
 }
 
 int testAdventurer(int numHand, int numDeck) {
@@ -84,21 +96,27 @@ int testAdventurer(int numHand, int numDeck) {
 
 	}
 	state.hand[cP][0]=adventurer;
-	//printHand(cP, &state);
-	//printDeck(cP, &state);
-	//printDiscard(cP, &state);
+	if (PRINT_CARDS) {
+		printHand(cP, &state);
+		printDeck(cP, &state);
+		printDiscard(cP, &state);
+		printPlayed(cP, &state);
+	}
 	
 	memcpy(&origState, &state, sizeof(struct gameState));
 	cardEffect(adventurer, 0,0,0, &state, 0, 0);
 	
-	//printHand(cP, &state);
-	//printDeck(cP, &state);
-	//printDiscard(cP, &state);
+	if (PRINT_CARDS) {
+		printHand(cP, &state);
+		printDeck(cP, &state);
+		printDiscard(cP, &state);
+		printPlayed(cP, &state);
+	}
 	
 	// oracle code
 	// 2 treasure cards should be brought up from deck to hand
-	i=0;
-	while (treasureCount < 2 && i < origState.deckCount[cP]) {
+	i=origState.deckCount[cP]-1;
+	while (treasureCount < 2 && i > -1) {
 		if (origState.deck[cP][i] == copper) {
 			numCopper++;
 		}
@@ -112,29 +130,42 @@ int testAdventurer(int numHand, int numDeck) {
 			numDiscarded++;
 		}
 		treasureCount = numCopper + numSilver + numGold;
-		i++;
+		i--;
 	}
 	// now you know how many cards should have been discarded and which treasures
 	// should now be the hand!!
 	if (numDiscarded + treasureCount != origState.deckCount[cP] - state.deckCount[cP]) {
 		if (NOISY_TEST)
-			printf("FAIL: wrong number of cards in deck, %i vs %i\n", numDiscarded + treasureCount, origState.deckCount[cP] - state.deckCount[cP]);
+			printf("FAIL: wrong number of cards in deck, %i+%i vs %i\n", numDiscarded , treasureCount, origState.deckCount[cP] - state.deckCount[cP]);
 		globalFail=1;		
 	}
 	// make sure nothing else changed in the deck
-	j=0;
-	for (i=numDiscarded+ treasureCount; i < origState.deckCount[cP]; i++) {
-		if (origState.deck[cP][i] != state.deck[cP][j]) {
-			if (NOISY_TEST)
-				printf("FAIL: incorrect state change to deck\n");
-			globalFail=1;
-			i = origState.deckCount[cP];
+	j=numDiscarded-1;
+	// check back half of original deck against discard pile
+	for (i=origState.deckCount[cP]-1; i>origState.deckCount[cP] - numDiscarded - treasureCount; i--) {
+		int card = origState.deck[cP][i];
+		if (card != copper && card!= gold && card != silver) {
+			if (card != state.discard[cP][j]) {
+				if (NOISY_TEST)
+					printf("FAIL: incorrect state change to deck, card %i vs. %i\n", card, state.deck[cP][j]);
+				globalFail=1;
+				i = -1; // just exit
+			}
+			j--;
 		}
-		j++;
+	}
+	// check front half (remaining) portion of deck
+	for (i=0; i < origState.deckCount[cP] - numDiscarded - treasureCount; i++) {
+		if (origState.deck[cP][i] != state.deck[cP][i]) {
+			if (NOISY_TEST)
+				printf("FAIL: incorrect state change to deck (remaining)\n");
+			globalFail=1;
+			i = origState.deckCount[cP]; // just exit	
+		}			
 	}
 		
 	// adventurer brings 2 cards to the hand
-	if (state.handCount[cP] != origState.handCount[cP]+2) {
+	if (state.handCount[cP] != origState.handCount[cP]+treasureCount) {
 		if (NOISY_TEST)
 			printf("FAIL: wrong number of cards brought to hand\n");
 		globalFail=1;			
@@ -172,7 +203,7 @@ int testAdventurer(int numHand, int numDeck) {
 
 	// check that valid cards from deck were drawn
 	for (i=0; i< 17; i++) {
-		if (fullDeckCount(cP, i, &origState) != fullDeckCount(cP, i, &state)) {
+		if (fullDeckCount(cP, i, &origState) != fullDeckCount(cP, i, &state) + playedCardCount(&state, i)) {
 			if (NOISY_TEST)
 				printf("FAIL: cards not conserved during draw\n");
 			globalFail=1;
@@ -212,10 +243,22 @@ int testAdventurer(int numHand, int numDeck) {
 		if (state.supplyCount[i] != origState.supplyCount[i]) {
 			if (NOISY_TEST)
 				printf("FAIL: state change for supply cards (victory, kingdom)\n");
+			globalFail=1;
 		}
 	}
 	
-
+	if (globalFail) {
+		printHand(cP, &origState);
+		printDeck(cP, &origState);
+		printDiscard(cP, &origState);
+		printPlayed(cP, &origState);
+		printHand(cP, &state);
+		printDeck(cP, &state);
+		printDiscard(cP, &state);
+		printPlayed(cP, &state);
+	}
+	
+	
 	return globalFail;
 }
 
@@ -227,19 +270,21 @@ int main() {
 	SelectStream(1);
 	PutSeed((long)time(NULL));	
 	int i;
-	int numRuns=2;
+	int numRuns=50000;
 	int failed=0;
 	int numHand, numDeck;
 	
 	for (i=0; i< numRuns; i++) {
 		numHand = dispRand(MAX_HAND);
 		numDeck = dispRand(MAX_DECK);
-		//numHand=6;
-		//numDeck=6;
+		//numHand=10;
+		//numDeck=10;
 		if (testAdventurer(numHand, numDeck)) {
 			//printf("Adventurer implementation FAILED\n");
 			//i=numRuns;
+			//printf("Adventurer implementation FAILED\n");
 			failed=1;
+			i=numRuns+1;
 		}
 	}
 
