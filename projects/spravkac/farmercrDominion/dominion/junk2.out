@@ -1,0 +1,66 @@
+Testing Adventurer implementation...
+FAIL: wrong number of cards in deck, 0+2 vs 4
+FAIL: wrong number of cards brought to hand
+Player 0's hand:
+#  Card
+0  Adventurer   
+1  Village      
+2  Gold         
+3  Great Hall   
+4  Adventurer   
+5  Curse        
+6  Estate       
+7  Great Hall   
+8  Smithy       
+9  Silver       
+
+Player 0's deck: 
+#  Card
+0  Feast        
+1  Sea Hag      
+2  Smithy       
+3  Sea Hag      
+4  Gold         
+5  Silver       
+6  Silver       
+7  Mine         
+8  Silver       
+9  Silver       
+
+Player 0's discard: 
+
+Player 0's played cards: 
+
+Player 0's hand:
+#  Card
+0  Adventurer   
+1  Village      
+2  Gold         
+3  Great Hall   
+4  Adventurer   
+5  Curse        
+6  Estate       
+7  Great Hall   
+8  Smithy       
+9  Silver       
+10 Silver       
+11 Silver       
+12 Silver       
+
+Player 0's deck: 
+#  Card
+0  Feast        
+1  Sea Hag      
+2  Smithy       
+3  Sea Hag      
+4  Gold         
+5  Silver       
+
+Player 0's discard: 
+#  Card
+0  Mine          
+
+Player 0's played cards: 
+
+Adventurer implementation FAILED
+Testing Adventurer implementation complete

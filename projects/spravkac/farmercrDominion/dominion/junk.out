@@ -1,0 +1,388 @@
+Testing Adventurer implementation...
+FAIL: wrong number of cards in deck, 45+2 vs 48
+FAIL: wrong number of cards brought to hand
+FAIL: incorrect number of coppers in hand
+FAIL: incorrect number of silvers in hand
+Player 0's hand:
+#  Card
+0  Adventurer   
+1  Village      
+2  Gold         
+3  Great Hall   
+4  Adventurer   
+5  Curse        
+6  Estate       
+7  Great Hall   
+8  Smithy       
+9  Silver       
+10 Feast        
+11 Sea Hag      
+12 Smithy       
+13 Sea Hag      
+14 Gold         
+15 Silver       
+16 Silver       
+17 Mine         
+18 Silver       
+19 Silver       
+20 Smithy       
+21 Council Room 
+22 Gold         
+23 Mine         
+24 Silver       
+25 Duchy        
+26 Duchy        
+27 Silver       
+28 Village      
+29 Province     
+30 Copper       
+31 Province     
+32 Sea Hag      
+33 Province     
+34 Feast        
+35 Sea Hag      
+36 Feast        
+37 Sea Hag      
+38 Smithy       
+39 Silver       
+40 Province     
+41 Curse        
+42 Gold         
+43 Council Room 
+44 Great Hall   
+45 Duchy        
+46 Village      
+47 Duchy        
+48 Mine         
+49 Feast        
+50 Adventurer   
+51 Estate       
+52 Province     
+53 Duchy        
+54 Silver       
+55 Estate       
+56 Council Room 
+57 Silver       
+58 Silver       
+59 Estate       
+60 Great Hall   
+61 Silver       
+62 Sea Hag      
+63 Duchy        
+64 Gardens      
+65 Duchy        
+66 Sea Hag      
+67 Copper       
+68 Remodel      
+69 Great Hall   
+70 Gold         
+71 Silver       
+72 Gold         
+73 Duchy        
+74 Gold         
+75 Estate       
+76 Gold         
+77 Gold         
+78 Remodel      
+79 Council Room 
+80 Village      
+81 Remodel      
+82 Silver       
+83 Remodel      
+84 Feast        
+85 Mine         
+86 Remodel      
+87 Council Room 
+88 Copper       
+89 Estate       
+90 Smithy       
+91 Gardens      
+92 Smithy       
+93 Duchy        
+94 Sea Hag      
+95 Adventurer   
+96 Estate       
+97 Gold         
+98 Mine         
+99 Curse        
+100 Mine         
+101 Duchy        
+102 Estate       
+103 Remodel      
+104 Silver       
+105 Village      
+106 Curse        
+107 Great Hall   
+108 Silver       
+109 Gardens      
+110 Village      
+111 Council Room 
+
+Player 0's deck: 
+#  Card
+0  Province     
+1  Remodel      
+2  Copper       
+3  Silver       
+4  Remodel      
+5  Sea Hag      
+6  Copper       
+7  Gold         
+8  Duchy        
+9  Smithy       
+10 Remodel      
+11 Smithy       
+12 Curse        
+13 Gold         
+14 Adventurer   
+15 Curse        
+16 Remodel      
+17 Adventurer   
+18 Smithy       
+19 Smithy       
+20 Silver       
+21 Copper       
+22 Curse        
+23 Curse        
+24 Gardens      
+25 Remodel      
+26 Sea Hag      
+27 Adventurer   
+28 Sea Hag      
+29 Great Hall   
+30 Feast        
+31 Adventurer   
+32 Feast        
+33 Copper       
+34 Sea Hag      
+35 Remodel      
+36 Mine         
+37 Feast        
+38 Remodel      
+39 Adventurer   
+40 Remodel      
+41 Council Room 
+42 Province     
+43 Gardens      
+44 Council Room 
+45 Council Room 
+46 Feast        
+47 Sea Hag      
+48 Smithy       
+49 Province     
+50 Adventurer   
+51 Council Room 
+52 Curse        
+53 Great Hall   
+54 Council Room 
+55 Remodel      
+56 Province     
+57 Duchy        
+58 Province     
+59 Curse        
+60 Estate       
+61 Smithy       
+62 Gardens      
+63 Province     
+64 Smithy       
+65 Village      
+66 Sea Hag      
+67 Smithy       
+
+Player 0's discard: 
+
+Player 0's played cards: 
+
+Player 0's hand:
+#  Card
+0  Adventurer   
+1  Village      
+2  Gold         
+3  Great Hall   
+4  Adventurer   
+5  Curse        
+6  Estate       
+7  Great Hall   
+8  Smithy       
+9  Silver       
+10 Feast        
+11 Sea Hag      
+12 Smithy       
+13 Sea Hag      
+14 Gold         
+15 Silver       
+16 Silver       
+17 Mine         
+18 Silver       
+19 Silver       
+20 Smithy       
+21 Council Room 
+22 Gold         
+23 Mine         
+24 Silver       
+25 Duchy        
+26 Duchy        
+27 Silver       
+28 Village      
+29 Province     
+30 Copper       
+31 Province     
+32 Sea Hag      
+33 Province     
+34 Feast        
+35 Sea Hag      
+36 Feast        
+37 Sea Hag      
+38 Smithy       
+39 Silver       
+40 Province     
+41 Curse        
+42 Gold         
+43 Council Room 
+44 Great Hall   
+45 Duchy        
+46 Village      
+47 Duchy        
+48 Mine         
+49 Feast        
+50 Adventurer   
+51 Estate       
+52 Province     
+53 Duchy        
+54 Silver       
+55 Estate       
+56 Council Room 
+57 Silver       
+58 Silver       
+59 Estate       
+60 Great Hall   
+61 Silver       
+62 Sea Hag      
+63 Duchy        
+64 Gardens      
+65 Duchy        
+66 Sea Hag      
+67 Copper       
+68 Remodel      
+69 Great Hall   
+70 Gold         
+71 Silver       
+72 Gold         
+73 Duchy        
+74 Gold         
+75 Estate       
+76 Gold         
+77 Gold         
+78 Remodel      
+79 Council Room 
+80 Village      
+81 Remodel      
+82 Silver       
+83 Remodel      
+84 Feast        
+85 Mine         
+86 Remodel      
+87 Council Room 
+88 Copper       
+89 Estate       
+90 Smithy       
+91 Gardens      
+92 Smithy       
+93 Duchy        
+94 Sea Hag      
+95 Adventurer   
+96 Estate       
+97 Gold         
+98 Mine         
+99 Curse        
+100 Mine         
+101 Duchy        
+102 Estate       
+103 Remodel      
+104 Silver       
+105 Village      
+106 Curse        
+107 Great Hall   
+108 Silver       
+109 Gardens      
+110 Village      
+111 Council Room 
+112 Copper       
+113 Copper       
+114 Silver       
+
+Player 0's deck: 
+#  Card
+0  Province     
+1  Remodel      
+2  Copper       
+3  Silver       
+4  Remodel      
+5  Sea Hag      
+6  Copper       
+7  Gold         
+8  Duchy        
+9  Smithy       
+10 Remodel      
+11 Smithy       
+12 Curse        
+13 Gold         
+14 Adventurer   
+15 Curse        
+16 Remodel      
+17 Adventurer   
+18 Smithy       
+19 Smithy       
+
+Player 0's discard: 
+#  Card
+0  Curse         
+1  Curse         
+2  Gardens       
+3  Remodel       
+4  Sea Hag       
+5  Adventurer    
+6  Sea Hag       
+7  Great Hall    
+8  Feast         
+9  Adventurer    
+10 Feast         
+11 Sea Hag       
+12 Remodel       
+13 Mine          
+14 Feast         
+15 Remodel       
+16 Adventurer    
+17 Remodel       
+18 Council Room  
+19 Province      
+20 Gardens       
+21 Council Room  
+22 Council Room  
+23 Feast         
+24 Sea Hag       
+25 Smithy        
+26 Province      
+27 Adventurer    
+28 Council Room  
+29 Curse         
+30 Great Hall    
+31 Council Room  
+32 Remodel       
+33 Province      
+34 Duchy         
+35 Province      
+36 Curse         
+37 Estate        
+38 Smithy        
+39 Gardens       
+40 Province      
+41 Smithy        
+42 Village       
+43 Sea Hag       
+44 Smithy        
+
+Player 0's played cards: 
+
+Adventurer implementation FAILED
+Testing Adventurer implementation complete
